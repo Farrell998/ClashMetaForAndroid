@@ -8,6 +8,9 @@ on:
 jobs:
   BuildPreRelease:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 必须给这个权限，才能打 Tag
+      releases: write  # 必须给这个权限，才能发 Release
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v6
