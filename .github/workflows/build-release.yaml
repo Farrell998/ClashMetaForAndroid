@@ -124,6 +124,7 @@ jobs:
 
       - name: Release Changelog Builder
         uses: mikepenz/release-changelog-builder-action@v4.1.1
+        continue-on-error: true  # 加上这一行，即使报错也会继续完成后续任务
         with:
           configurationJson: |
             {
