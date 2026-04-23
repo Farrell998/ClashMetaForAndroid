@@ -109,14 +109,17 @@ jobs:
       - name: Release Build
         if: success()
         run: ./gradlew --no-daemon app:assembleMetaRelease
-
-      - name: Tag Repo
-        uses: richardsimko/update-tag@v1
-        with:
-          tag_name: ${{ inputs.release-tag }}
+      - name: Tag Repo (Native Git)
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          # 强制创建一个指向当前提交的标签
+          git tag -f "${{ inputs.release-tag }}"
+          # 强制推送到远程仓库
+          git push origin "${{ inputs.release-tag }}" --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+      
       - name: Upload Release
         uses: softprops/action-gh-release@v1
         if: ${{ success() }}
